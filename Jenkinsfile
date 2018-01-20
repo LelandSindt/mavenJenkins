@@ -54,7 +54,9 @@ pipeline {
     }
     stage('Docker Prune ') {
       steps {
-        sh 'docker system prune --force '
+        sh '''
+          echo "Docker Prune"
+        '''
       }
     }
     stage('Deploy to Development') {
