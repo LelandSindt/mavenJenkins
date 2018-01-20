@@ -6,6 +6,14 @@ pipeline {
     POM_PROJECT_VERSION = readMavenPom().getVersion()
     POM_PROJECT_NAME = readMavenPom().getName()
   }
+  parameters {
+      choice(
+          // choices are a string of newline separated values
+          // https://issues.jenkins-ci.org/browse/JENKINS-41180
+          choices: 'greeting\nsilence',
+          description: '',
+          name: 'REQUESTED_ACTION')
+  }
   stages {
     stage('Initialize ') {
       steps {
@@ -18,7 +26,7 @@ pipeline {
         '''
       }
     }
-    stage('Compile') {
+    stage('Maven Deploy RELEASE ') {
       when {
         anyOf {
           branch 'master'
@@ -31,7 +39,7 @@ pipeline {
         '''
       }
     }
-    stage('Build Docker Containers') {
+    stage('Maven Deploy SNAPSHOT ') {
       when {
         anyOf {
           branch 'master'
