@@ -27,7 +27,6 @@ pipeline {
       } 
       steps {
         sh '''
-          cd ./my-app/
           ./mvwn clean install
         '''
       }
