@@ -48,8 +48,7 @@ pipeline {
       }
       steps {
         sh '''
-          cd ./my-app/ 
-          echo "docker build......" 
+          ./mvnw clean install
         '''
       }
     }
