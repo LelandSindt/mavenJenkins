@@ -27,7 +27,7 @@ pipeline {
       } 
       steps {
         sh '''
-          ./mvwn clean install
+          ./mvnw clean install
         '''
       }
     }
