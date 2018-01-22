@@ -1,3 +1,4 @@
+#!/usr/bin/env groovy
 pipeline {
   agent any
   environment {
@@ -17,6 +18,11 @@ pipeline {
           env
         '''
       }
+      script {
+        for(i in 0..10){
+           sh ''' echo "hello world" '''
+         }
+       }
     }
     stage('Maven Deploy RELEASE ') {
       when {
