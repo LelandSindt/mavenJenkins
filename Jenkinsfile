@@ -14,7 +14,9 @@ pipeline {
           set -x
           env
         '''
-        log.info 'nothing'
+        script {
+          log.info 'nothing'
+        }    
       }
     }
     stage('Maven Deploy RELEASE ') {
