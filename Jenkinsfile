@@ -10,7 +10,7 @@ pipeline {
       steps {
         script {
           log.info 'pre'
-          JOE = testing.nothing
+          JOE = test.nothing
         }
         sh '''
           set +x
