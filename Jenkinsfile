@@ -10,7 +10,6 @@ pipeline {
           set -x
           env
         '''
-        echo 'Hello World'
       }
     }
     stage('Maven Deploy RELEASE ') {
