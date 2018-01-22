@@ -8,6 +8,10 @@ pipeline {
   stages {
     stage('Initialize ') {
       steps {
+        script {
+          log.info 'pre'
+          JOE = testing.nothing
+        }
         sh '''
           set +x
           echo " Building ${POM_PROJECT_NAME} "
