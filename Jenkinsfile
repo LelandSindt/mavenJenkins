@@ -17,12 +17,12 @@ pipeline {
           set -x
           env
         '''
+        script {
+          for(i in 0..10){
+            sh ''' echo "hello world" '''
+          }
+        }
       }
-      script {
-        for(i in 0..10){
-           sh ''' echo "hello world" '''
-         }
-       }
     }
     stage('Maven Deploy RELEASE ') {
       when {
