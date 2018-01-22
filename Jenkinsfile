@@ -1,3 +1,8 @@
+library identifier: 'testing@master', retriever: modernSCM(
+  [$class: 'GitSCMSource',
+   remote: 'git@github.com:my-jenkins-utils.git')
+library 'testing'
+
 pipeline {
   agent any
   stages {
