@@ -1,6 +1,6 @@
 library identifier: 'testing@master', retriever: modernSCM(
   [$class: 'GitSCMSource',
-   remote: 'https://github.com/bitwiseman/jenkins-pipeline-shared.git'])
+   remote: 'https://github.com/lelandsindt/jenkins-pipeline-shared.git'])
 
 pipeline {
   agent any
@@ -14,6 +14,7 @@ pipeline {
           set -x
           env
         '''
+        log.info 'nothing'
       }
     }
     stage('Maven Deploy RELEASE ') {
