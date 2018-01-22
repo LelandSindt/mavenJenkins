@@ -1,4 +1,3 @@
-library 'testing'
 pipeline {
   agent any
   stages {
