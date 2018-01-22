@@ -1,7 +1,6 @@
 library identifier: 'testing@master', retriever: modernSCM(
   [$class: 'GitSCMSource',
    remote: 'https://github.com/bitwiseman/jenkins-pipeline-shared.git'])
-library 'testing'
 
 pipeline {
   agent any
