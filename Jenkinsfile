@@ -17,11 +17,6 @@ pipeline {
           env
         '''
       }
-      steps {
-        for(i in 0..10) {
-          sh ''' echo "hello world" '''
-        }
-      }
     }
     stage('Maven Deploy RELEASE ') {
       when {
