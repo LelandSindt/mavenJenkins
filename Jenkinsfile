@@ -1,12 +1,5 @@
-#!/usr/bin/env groovy
 pipeline {
   agent any
-  environment {
-    //Use "Pipeline Utility Steps" plugin to read information from pom.xml into env variables
-    //http://maven.apache.org/components/ref/3.3.9/maven-model/apidocs/org/apache/maven/model/Model.html
-    POM_PROJECT_VERSION = readMavenPom().getVersion()
-    POM_PROJECT_NAME = readMavenPom().getName()
-  }
   stages {
     stage('Initialize ') {
       steps {
@@ -17,11 +10,7 @@ pipeline {
           set -x
           env
         '''
-        script {
-          for(i in 0..10){
-            sh ''' echo "hello world" '''
-          }
-        }
+        echo 'Hello World'
       }
     }
     stage('Maven Deploy RELEASE ') {
@@ -30,7 +19,8 @@ pipeline {
           branch 'master'
           branch 'develop'
         }
-      } 
+        
+      }
       steps {
         sh '''
           ./mvnw clean install
@@ -43,6 +33,7 @@ pipeline {
           branch 'master'
           branch 'develop'
         }
+        
       }
       steps {
         sh '''
@@ -77,6 +68,7 @@ pipeline {
           branch 'develop'
           branch 'blueocean'
         }
+        
       }
       steps {
         sh ''' 
@@ -94,5 +86,9 @@ pipeline {
         '''
       }
     }
+  }
+  environment {
+    POM_PROJECT_VERSION = readMavenPom().getVersion()
+    POM_PROJECT_NAME = readMavenPom().getName()
   }
 }
