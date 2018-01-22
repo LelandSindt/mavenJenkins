@@ -1,3 +1,4 @@
+//https://jenkins.io/doc/book/pipeline/shared-libraries/#dynamic-retrieval
 library identifier: 'testing@master', retriever: modernSCM(
   [$class: 'GitSCMSource',
    remote: 'https://github.com/lelandsindt/jenkins-pipeline-shared.git'])
