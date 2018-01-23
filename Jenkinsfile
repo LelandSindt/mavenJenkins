@@ -40,7 +40,7 @@ pipeline {
     stage('Maven Deploy SNAPSHOT ') {
       when {
         not {
-          !branch 'master'
+          branch 'master'
         }
         check.isSnapshot(readMavenPom().getVersion())
       }
