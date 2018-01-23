@@ -27,6 +27,7 @@ pipeline {
       }
     }
     stage('Maven Deploy RELEASE ') {
+      // Deploy RELEASE when branch is master and version is RELEASE
       when {
         branch 'master'
         expression {
@@ -40,6 +41,7 @@ pipeline {
       }
     }
     stage('Maven Deploy SNAPSHOT ') {
+      // Deploy SNAPSHOT when branch is not master and version is SNAPSHOT
       when {
         not {
           branch 'master'
@@ -54,10 +56,15 @@ pipeline {
         '''
       }
     }
-    stage('Docker Prune ') {
+    stage('Docker Push ') {
+      when {
+        expression {
+          !isSkipCICD()
+        }
+      }
       steps {
         sh '''
-          echo "Docker Prune"
+          echo "Docker Push"
         '''
       }
     }
