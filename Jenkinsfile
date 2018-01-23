@@ -30,8 +30,6 @@ pipeline {
       when {
         branch 'master'
         check.isRelease(readMavenPom().getVersion())
-        }
-        
       }
       steps {
         sh '''
@@ -43,8 +41,6 @@ pipeline {
       when {
         !branch 'master'
         check.isSnapshot(readMavenPom().getVersion())
-        }
-        
       }
       steps {
         sh '''
