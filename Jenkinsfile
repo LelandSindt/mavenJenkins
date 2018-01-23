@@ -5,6 +5,13 @@ library identifier: 'testing@master', retriever: modernSCM(
 
 pipeline {
   agent any
+  environment {
+    //Use "Pipeline Utility Steps" plugin to read information from pom.xml into env variables
+    //http://maven.apache.org/components/ref/3.3.9/maven-model/apidocs/org/apache/maven/model/Model.html
+    POM_PROJECT_VERSION = readMavenPom().getVersion()
+    POM_PROJECT_NAME = readMavenPom().getName()
+    NOTHING = test.nothing
+  }
   stages {
     stage('Initialize ') {
       steps {
