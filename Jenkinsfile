@@ -10,7 +10,8 @@ pipeline {
     //http://maven.apache.org/components/ref/3.3.9/maven-model/apidocs/org/apache/maven/model/Model.html
     POM_PROJECT_VERSION = readMavenPom().getVersion()
     POM_PROJECT_NAME = readMavenPom().getName()
-    NOTHING = test.nothing()
+    NOTHINGTRUE = test.nothingtrue()
+    NOTHINGFALSE = test.nothingfalse()
   }
   stages {
     stage('Initialize ') {
