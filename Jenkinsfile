@@ -58,8 +58,10 @@ pipeline {
     }
     stage('Docker Push ') {
       when {
-        expression {
-          !check.isSkipCICD()
+        not {
+          expression {
+            check.isSkipCICD()
+          }
         }
       }
       steps {
