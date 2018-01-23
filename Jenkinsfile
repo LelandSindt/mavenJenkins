@@ -11,7 +11,7 @@ pipeline {
     POM_PROJECT_VERSION = readMavenPom().getVersion()
     POM_PROJECT_NAME = readMavenPom().getName()
     isRelease = checking.isRelease()
-    isSnapshot = checking.isSnapshot()
+    //isSnapshot = checking.isSnapshot()
   }
   stages {
     stage('Initialize ') {
