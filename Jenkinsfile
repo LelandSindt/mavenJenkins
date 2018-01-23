@@ -17,9 +17,6 @@ pipeline {
   stages {
     stage('Initialize ') {
       steps {
-        script {
-          log.info 'pre'
-        }
         sh '''
           set +x
           echo " Building ${POM_PROJECT_NAME} "
@@ -27,9 +24,6 @@ pipeline {
           set -x
           env
         '''
-        script {
-          log.info 'nothing'
-        }    
       }
     }
     stage('Maven Deploy RELEASE ') {
