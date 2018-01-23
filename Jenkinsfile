@@ -104,8 +104,4 @@ pipeline {
       }
     }
   }
-  environment {
-    POM_PROJECT_VERSION = readMavenPom().getVersion()
-    POM_PROJECT_NAME = readMavenPom().getName()
-  }
 }
