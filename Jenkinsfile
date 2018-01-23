@@ -10,8 +10,8 @@ pipeline {
     //http://maven.apache.org/components/ref/3.3.9/maven-model/apidocs/org/apache/maven/model/Model.html
     POM_PROJECT_VERSION = readMavenPom().getVersion()
     POM_PROJECT_NAME = readMavenPom().getName()
-    isRelease = check.isRelease('123.RELEASE')
-    isSnapshot = check.isSnapshot('123.nothing')
+    isRelease = check.isRelease('123.LEASE')
+    isSnapshot = check.isSnapshot('123')
   }
   stages {
     stage('Initialize ') {
