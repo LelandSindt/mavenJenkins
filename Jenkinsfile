@@ -28,9 +28,8 @@ pipeline {
     }
     stage('Maven Deploy RELEASE ') {
       when {
-        anyOf {
-          branch 'master'
-          branch 'develop'
+        branch 'master'
+        check.isRelease(readMavenPom().getVersion())
         }
         
       }
@@ -42,9 +41,8 @@ pipeline {
     }
     stage('Maven Deploy SNAPSHOT ') {
       when {
-        anyOf {
-          branch 'master'
-          branch 'develop'
+        !branch 'master'
+        check.isSnapshot(readMavenPom().getVersion())
         }
         
       }
