@@ -1,5 +1,5 @@
 //https://jenkins.io/doc/book/pipeline/shared-libraries/#dynamic-retrieval
-library identifier: 'testing@master', retriever: modernSCM(
+library identifier: 'toolslib@master', retriever: modernSCM(
   [$class: 'GitSCMSource',
    remote: 'https://github.com/lelandsindt/jenkins-pipeline-shared.git'])
 
@@ -10,7 +10,7 @@ pipeline {
     //http://maven.apache.org/components/ref/3.3.9/maven-model/apidocs/org/apache/maven/model/Model.html
     POM_PROJECT_VERSION = readMavenPom().getVersion()
     POM_PROJECT_NAME = readMavenPom().getName()
-    isRelease = checking.isRelease()
+    INRELEASE = checking.isRelease()
     //isSnapshot = checking.isSnapshot()
   }
   stages {
