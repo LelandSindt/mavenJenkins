@@ -29,7 +29,9 @@ pipeline {
     stage('Maven Deploy RELEASE ') {
       when {
         branch 'master'
-        check.isRelease(readMavenPom().getVersion())
+        expression {
+          check.isRelease(readMavenPom().getVersion())
+        }
       }
       steps {
         sh '''
@@ -42,7 +44,9 @@ pipeline {
         not {
           branch 'master'
         }
-        check.isSnapshot(readMavenPom().getVersion())
+        expression {
+          check.isSnapshot(readMavenPom().getVersion())
+        }
       }
       steps {
         sh '''
