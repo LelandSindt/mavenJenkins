@@ -160,9 +160,6 @@ pipeline {
         not { expression { check.skipPipeline(env.WORKSPACE) } }
       }
       steps {
-        input {
-          message "Deploy to Production?"
-        }
         sh ''' 
           echo "Deploy to Production"
         '''
