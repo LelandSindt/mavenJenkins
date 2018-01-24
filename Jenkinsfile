@@ -159,6 +159,11 @@ pipeline {
         expression { check.isRelease(env.POM_PROJECT_VERSION) } 
         not { expression { check.skipPipeline(env.WORKSPACE) } }
       }
+      //Todo: figure out how to get input go/nogo /after/ the when statment.
+      //https://jenkins.io/doc/book/pipeline/syntax/#input
+      // "... using the input step. The stage will pause after any options have
+      // been applied, and before entering the stage`s `agent or evaluating its
+      // when condition."
       steps {
         sh ''' 
           echo "Deploy to Production"
