@@ -60,7 +60,7 @@ pipeline {
       when {
         not {
           expression {
-            check.isSkipCICD(${env.WORKSPACE})
+            check.isSkipCICD(env.WORKSPACE)
           }
         }
       }
