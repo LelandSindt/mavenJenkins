@@ -78,7 +78,7 @@ pipeline {
         not { branch 'master' }
         expression { check.isSnapshot(env.POM_PROJECT_VERSION) }
         not { expression { check.skipPipeline(env.WORKSPACE) } }
-        not { expression { check.isReleaseCandidtate(env.GIT_BRANCH) } }
+        not { expression { check.isReleaseCandidate(env.GIT_BRANCH) } }
       }
       steps {
         sh ''' 
