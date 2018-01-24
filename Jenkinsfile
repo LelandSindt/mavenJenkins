@@ -8,7 +8,7 @@ library identifier: 'toolslib@master', retriever: modernSCM(
 pipeline {
   agent any
   options {
-    lock resource: 'shared_resource_lock'
+    disableConcurrentBuilds()
   }
   environment {
     //Use "Pipeline Utility Steps" plugin to read information from pom.xml into env variables
