@@ -7,6 +7,9 @@ library identifier: 'toolslib@master', retriever: modernSCM(
 
 pipeline {
   agent any
+  options {
+    lock resource: 'shared_resource_lock'
+  }
   environment {
     //Use "Pipeline Utility Steps" plugin to read information from pom.xml into env variables
     //http://maven.apache.org/components/ref/3.3.9/maven-model/apidocs/org/apache/maven/model/Model.html
@@ -155,6 +158,9 @@ pipeline {
         branch 'master' 
         expression { check.isRelease(env.POM_PROJECT_VERSION) } 
         not { expression { check.skipPipeline(env.WORKSPACE) } }
+      }
+      input {
+        message "Deploy to Production?"
       }
       steps {
         sh ''' 
