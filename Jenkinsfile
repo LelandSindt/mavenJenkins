@@ -55,6 +55,16 @@ pipeline {
     }
     stage('Docker Build ') {
       when {
+        anyOf { // Did Maven Deploy Run? --- possible better solution: https://github.com/jenkinsci/declarative-pipeline-when-conditions-plugin 
+          allOf {
+            branch 'master'
+            expression { check.isRelease(env.POM_PROJECT_VERSION) }
+          }
+          allOf {
+            not { branch 'master' }
+            expression { check.isSnapshot(env.POM_PROJECT_VERSION) }
+          }
+        } // Did Maven Deploy Run?
         not { expression { check.skipPipeline(env.WORKSPACE) } }
       }
       steps {
@@ -65,6 +75,16 @@ pipeline {
     }
     stage('Docker Push ') {
       when {
+        anyOf { // Did Maven Deploy Run?
+          allOf {
+            branch 'master'
+            expression { check.isRelease(env.POM_PROJECT_VERSION) }
+          }
+          allOf {
+            not { branch 'master' }
+            expression { check.isSnapshot(env.POM_PROJECT_VERSION) }
+          }
+        } // Did Maven Deploy Run?
         not { expression { check.skipPipeline(env.WORKSPACE) } }
       }
       steps {
@@ -75,6 +95,16 @@ pipeline {
     }
     stage('Deploy to Development') {
       when {
+        anyOf { // Did Maven Deploy Run?
+          allOf {
+            branch 'master'
+            expression { check.isRelease(env.POM_PROJECT_VERSION) }
+          }
+          allOf {
+            not { branch 'master' }
+            expression { check.isSnapshot(env.POM_PROJECT_VERSION) }
+          }
+        } // Did Maven Deploy Run?
         not { branch 'master' }
         expression { check.isSnapshot(env.POM_PROJECT_VERSION) }
         not { expression { check.skipPipeline(env.WORKSPACE) } }
@@ -88,6 +118,16 @@ pipeline {
     }
     stage('Deploy to Intigration') {
       when {
+        anyOf { // Did Maven Deploy Run?
+          allOf {
+            branch 'master'
+            expression { check.isRelease(env.POM_PROJECT_VERSION) }
+          }
+          allOf {
+            not { branch 'master' }
+            expression { check.isSnapshot(env.POM_PROJECT_VERSION) }
+          }
+        } // Did Maven Deploy Run?
         expression { check.isReleaseCandidate(env.GIT_BRANCH) }
         expression { check.isSnapshot(env.POM_PROJECT_VERSION) }
         not { expression { check.skipPipeline(env.WORKSPACE) } }
@@ -100,6 +140,16 @@ pipeline {
     }
     stage('Deploy to Production') {
       when {
+        anyOf { // Did Maven Deploy Run?
+          allOf {
+            branch 'master'
+            expression { check.isRelease(env.POM_PROJECT_VERSION) }
+          }
+          allOf {
+            not { branch 'master' }
+            expression { check.isSnapshot(env.POM_PROJECT_VERSION) }
+          }
+        } // Did Maven Deploy Run?
         branch 'master' 
         expression { check.isRelease(env.POM_PROJECT_VERSION) } 
         not { expression { check.skipPipeline(env.WORKSPACE) } }
