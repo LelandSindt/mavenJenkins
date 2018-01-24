@@ -1,3 +1,7 @@
+
+// Locks and Milestones
+// https://jenkins.io/blog/2016/10/16/stage-lock-milestone/
+
 //https://jenkins.io/doc/book/pipeline/shared-libraries/#dynamic-retrieval
 library identifier: 'toolslib@master', retriever: modernSCM(
   [$class: 'GitSCMSource',
@@ -53,6 +57,7 @@ pipeline {
         '''
       }
     }
+    lock('dockerResources') {
     stage('Docker Build ') {
       when {
         anyOf { // Did Maven Deploy Run? --- possible better solution: https://github.com/jenkinsci/declarative-pipeline-when-conditions-plugin 
@@ -93,6 +98,7 @@ pipeline {
         '''
       }
     }
+    } // lock('dockerResources')
     stage('Deploy to Development') {
       when {
         anyOf { // Did Maven Deploy Run?
@@ -154,6 +160,9 @@ pipeline {
         expression { check.isRelease(env.POM_PROJECT_VERSION) } 
         not { expression { check.skipPipeline(env.WORKSPACE) } }
       }
+      milestone()
+      input message: "Deploy to production?"
+      milestone()
       steps {
         sh ''' 
           echo "Deploy to Production"
