@@ -33,6 +33,11 @@ pipeline {
         expression {
           check.isRelease(readMavenPom().getVersion())
         }
+        not {
+          expression {
+            check.skipPipeline(env.WORKSPACE)
+          }
+        }
       }
       steps {
         sh '''
@@ -48,6 +53,11 @@ pipeline {
         }
         expression {
           check.isSnapshot(readMavenPom().getVersion())
+        }
+        not {
+          expression {
+            check.skipPipeline(env.WORKSPACE)
+          }
         }
       }
       steps {
@@ -72,11 +82,11 @@ pipeline {
     }
     stage('Deploy to Development') {
       when {
-        anyOf {
-          branch 'develop'
-          branch 'blueocean'
+        not {
+          expression {
+            check.skipPipeline(env.WORKSPACE)
+          }
         }
-        
       }
       steps {
         sh ''' 
@@ -86,11 +96,11 @@ pipeline {
     }
     stage('Deploy to Intigration') {
       when {
-        anyOf {
-          branch 'develop'
-          branch 'blueocean'
+        not {
+          expression {
+            check.skipPipeline(env.WORKSPACE)
+          }
         }
-        
       }
       steps {
         sh ''' 
@@ -100,7 +110,11 @@ pipeline {
     }
     stage('Deploy to Production') {
       when {
-        branch 'master'
+        not {
+          expression {
+            check.skipPipeline(env.WORKSPACE)
+          }
+        }
       }
       steps {
         sh ''' 
