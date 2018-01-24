@@ -159,10 +159,10 @@ pipeline {
         expression { check.isRelease(env.POM_PROJECT_VERSION) } 
         not { expression { check.skipPipeline(env.WORKSPACE) } }
       }
-      input {
-        message "Deploy to Production?"
-      }
       steps {
+        input {
+          message "Deploy to Production?"
+        }
         sh ''' 
           echo "Deploy to Production"
         '''
