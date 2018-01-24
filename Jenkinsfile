@@ -86,7 +86,7 @@ pipeline {
     }
     stage('Deploy to Intigration') {
       when {
-        expression { check.isReleaseCandidate(env.BRANCH) }
+        expression { check.isReleaseCandidate(branch) }
         expression { check.isSnapshot(readMavenPom().getVersion()) }
         not { expression { check.skipPipeline(env.WORKSPACE) } }
       }
