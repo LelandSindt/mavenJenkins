@@ -13,6 +13,7 @@ pipeline {
     isRelease = check.isRelease(readMavenPom().getVersion())
     isSnapshot = check.isSnapshot(readMavenPom().getVersion())
     isReleaseCandidate = check.isReleaseCandidate(branch.toString())
+    skipPipeline = check.skipPipeline(env.WORKSPACE)
   }
   stages {
     stage('Initialize ') {
@@ -30,7 +31,7 @@ pipeline {
       // Deploy RELEASE when branch is master and version is RELEASE
       when {
         branch 'master'
-        expression { check.isRelease(readMavenPom().getVersion()) }
+        expression { check.isRelease(env.POM_PROJECT_VERSION) }
         not { expression { check.skipPipeline(env.WORKSPACE) } }
       }
       steps {
@@ -43,7 +44,7 @@ pipeline {
       // Deploy SNAPSHOT when branch is not master and version is SNAPSHOT
       when {
         not { branch 'master' }
-        expression { check.isSnapshot(readMavenPom().getVersion()) }
+        expression { check.isSnapshot(env.POM_PROJECT_VERSION) }
         not { expression { check.skipPipeline(env.WORKSPACE) } }
       }
       steps {
@@ -75,7 +76,7 @@ pipeline {
     stage('Deploy to Development') {
       when {
         not { branch 'master' }
-        expression { check.isSnapshot(readMavenPom().getVersion()) }
+        expression { check.isSnapshot(env.POM_PROJECT_VERSION) }
         not { expression { check.skipPipeline(env.WORKSPACE) } }
       }
       steps {
@@ -87,7 +88,7 @@ pipeline {
     stage('Deploy to Intigration') {
       when {
         expression { check.isReleaseCandidate(env.GIT_BRANCH) }
-        expression { check.isSnapshot(readMavenPom().getVersion()) }
+        expression { check.isSnapshot(env.POM_PROJECT_VERSION) }
         not { expression { check.skipPipeline(env.WORKSPACE) } }
       }
       steps {
@@ -99,7 +100,7 @@ pipeline {
     stage('Deploy to Production') {
       when {
         expression { check.isRelease(env.BRANCH) }
-        not { expression { check.isSnapshot(readMavenPom().getVersion()) } }
+        not { expression { check.isSnapshot(env.POM_PROJECT_VERSION) } }
         not { expression { check.skipPipeline(env.WORKSPACE) } }
       }
       steps {
