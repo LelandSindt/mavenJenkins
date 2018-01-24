@@ -78,6 +78,7 @@ pipeline {
         not { branch 'master' }
         expression { check.isSnapshot(env.POM_PROJECT_VERSION) }
         not { expression { check.skipPipeline(env.WORKSPACE) } }
+        not { expression { check.isReleaseCandidtate(env.GIT_BRANCH) } }
       }
       steps {
         sh ''' 
@@ -99,8 +100,8 @@ pipeline {
     }
     stage('Deploy to Production') {
       when {
-        expression { check.isRelease(env.BRANCH) }
-        not { expression { check.isSnapshot(env.POM_PROJECT_VERSION) } }
+        branch 'master' 
+        expression { check.isRelease(env.POM_PROJECT_VERSION) } }
         not { expression { check.skipPipeline(env.WORKSPACE) } }
       }
       steps {
