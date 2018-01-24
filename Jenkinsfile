@@ -30,14 +30,8 @@ pipeline {
       // Deploy RELEASE when branch is master and version is RELEASE
       when {
         branch 'master'
-        expression {
-          check.isRelease(readMavenPom().getVersion())
-        }
-        not {
-          expression {
-            check.skipPipeline(env.WORKSPACE)
-          }
-        }
+        expression { check.isRelease(readMavenPom().getVersion()) }
+        not { expression { check.skipPipeline(env.WORKSPACE) } }
       }
       steps {
         sh '''
@@ -48,17 +42,9 @@ pipeline {
     stage('Maven Deploy SNAPSHOT ') {
       // Deploy SNAPSHOT when branch is not master and version is SNAPSHOT
       when {
-        not {
-          branch 'master'
-        }
-        expression {
-          check.isSnapshot(readMavenPom().getVersion())
-        }
-        not {
-          expression {
-            check.skipPipeline(env.WORKSPACE)
-          }
-        }
+        not { branch 'master' }
+        expression { check.isSnapshot(readMavenPom().getVersion()) }
+        not { expression { check.skipPipeline(env.WORKSPACE) } }
       }
       steps {
         sh '''
@@ -66,13 +52,19 @@ pipeline {
         '''
       }
     }
+    stage('Docker Build ') {
+      when {
+        not { expression { check.skipPipeline(env.WORKSPACE) } }
+      }
+      steps {
+        sh '''
+          echo "Docker Build"
+        '''
+      }
+    }
     stage('Docker Push ') {
       when {
-        not {
-          expression {
-            check.skipPipeline(env.WORKSPACE)
-          }
-        }
+        not { expression { check.skipPipeline(env.WORKSPACE) } }
       }
       steps {
         sh '''
@@ -82,11 +74,9 @@ pipeline {
     }
     stage('Deploy to Development') {
       when {
-        not {
-          expression {
-            check.skipPipeline(env.WORKSPACE)
-          }
-        }
+        not { branch 'master' }
+        expression { check.isSnapshot(readMavenPom().getVersion()) }
+        not { expression { check.skipPipeline(env.WORKSPACE) } }
       }
       steps {
         sh ''' 
@@ -96,11 +86,9 @@ pipeline {
     }
     stage('Deploy to Intigration') {
       when {
-        not {
-          expression {
-            check.skipPipeline(env.WORKSPACE)
-          }
-        }
+        expression { check.isReleaseCandidate(env.BRANCH) }
+        expression { check.isSnapshot(readMavenPom().getVersion()) }
+        not { expression { check.skipPipeline(env.WORKSPACE) } }
       }
       steps {
         sh ''' 
@@ -110,11 +98,9 @@ pipeline {
     }
     stage('Deploy to Production') {
       when {
-        not {
-          expression {
-            check.skipPipeline(env.WORKSPACE)
-          }
-        }
+        expression { check.isRelease(env.BRANCH) }
+        not { expression { check.isSnapshot(readMavenPom().getVersion()) } }
+        not { expression { check.skipPipeline(env.WORKSPACE) } }
       }
       steps {
         sh ''' 
