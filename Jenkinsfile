@@ -1,4 +1,6 @@
 
+// Syntax reference
+// https://jenkins.io/doc/book/pipeline/syntax/#input
 
 //https://jenkins.io/doc/book/pipeline/shared-libraries/#dynamic-retrieval
 library identifier: 'toolslib@master', retriever: modernSCM(
@@ -164,6 +166,8 @@ pipeline {
       // "... using the input step. The stage will pause after any options have
       // been applied, and before entering the stage`s `agent or evaluating its
       // when condition."
+      // Also keep this in mind
+      // https://stackoverflow.com/questions/46276140/jenkins-declarative-pipeline-user-input-parameters
       steps {
         sh ''' 
           echo "Deploy to Production"
