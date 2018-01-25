@@ -61,7 +61,7 @@ pipeline {
     stage('Docker Build ') {
       when {
         anyOf { // Did Maven Deploy Run? --- possible better solution: https://github.com/jenkinsci/declarative-pipeline-when-conditions-plugin 
-          allOf {
+          allOf {                                                   // https://issues.jenkins-ci.org/browse/JENKINS-41187
             branch 'master'
             expression { check.isRelease(env.POM_PROJECT_VERSION) }
           }
