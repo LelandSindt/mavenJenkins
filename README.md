@@ -1,2 +1,2 @@
 # mavenJenkins
-playing with Mavent and Jenkins
+playing with Maven and Jenkins
