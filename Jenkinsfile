@@ -114,8 +114,8 @@ pipeline {
         } // Did Maven Deploy Run?
         branch 'develop'
         expression { check.isSnapshot(env.POM_PROJECT_VERSION) }
-        not { expression { check.skipPipeline(env.WORKSPACE) } }
         not { expression { check.isReleaseCandidate(env.GIT_BRANCH) } }
+        not { expression { check.skipPipeline(env.WORKSPACE) } }
       }
       steps {
         sh ''' 
