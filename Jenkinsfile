@@ -112,7 +112,7 @@ pipeline {
             expression { check.isSnapshot(env.POM_PROJECT_VERSION) }
           }
         } // Did Maven Deploy Run?
-        not { branch 'master' }
+        branch 'develop'
         expression { check.isSnapshot(env.POM_PROJECT_VERSION) }
         not { expression { check.skipPipeline(env.WORKSPACE) } }
         not { expression { check.isReleaseCandidate(env.GIT_BRANCH) } }
