@@ -115,6 +115,7 @@ pipeline {
         branch 'develop'
         expression { check.isSnapshot(env.POM_PROJECT_VERSION) }
         not { expression { check.isReleaseCandidate(env.GIT_BRANCH) } }
+        not { expression { check.skipDeploy(env.WORKSPACE) } }
         not { expression { check.skipPipeline(env.WORKSPACE) } }
       }
       steps {
@@ -137,6 +138,7 @@ pipeline {
         } // Did Maven Deploy Run?
         expression { check.isReleaseCandidate(env.GIT_BRANCH) }
         expression { check.isSnapshot(env.POM_PROJECT_VERSION) }
+        not { expression { check.skipDeploy(env.WORKSPACE) } }
         not { expression { check.skipPipeline(env.WORKSPACE) } }
       }
       steps {
@@ -159,6 +161,7 @@ pipeline {
         } // Did Maven Deploy Run?
         branch 'master' 
         expression { check.isRelease(env.POM_PROJECT_VERSION) } 
+        not { expression { check.skipDeploy(env.WORKSPACE) } }
         not { expression { check.skipPipeline(env.WORKSPACE) } }
       }
       //Todo: figure out how to get input go/nogo /after/ the when statment.
