@@ -39,6 +39,7 @@ pipeline {
       when {
         branch 'master'
         expression { check.isRelease(env.POM_PROJECT_VERSION) }
+        not { environment name: 'BUILD_ID', value: '1' }
         not { expression { check.skipPipeline(env.WORKSPACE) } }
       }
       steps {
@@ -52,6 +53,7 @@ pipeline {
       when {
         not { branch 'master' }
         expression { check.isSnapshot(env.POM_PROJECT_VERSION) }
+        not { environment name: 'BUILD_ID', value: '1' }
         not { expression { check.skipPipeline(env.WORKSPACE) } }
       }
       steps {
@@ -72,6 +74,7 @@ pipeline {
             expression { check.isSnapshot(env.POM_PROJECT_VERSION) }
           }
         } // Did Maven Deploy Run?
+        not { environment name: 'BUILD_ID', value: '1' }
         not { expression { check.skipPipeline(env.WORKSPACE) } }
       }
       steps {
@@ -92,6 +95,7 @@ pipeline {
             expression { check.isSnapshot(env.POM_PROJECT_VERSION) }
           }
         } // Did Maven Deploy Run?
+        not { environment name: 'BUILD_ID', value: '1' }
         not { expression { check.skipPipeline(env.WORKSPACE) } }
       }
       steps {
@@ -115,6 +119,7 @@ pipeline {
         branch 'develop'
         expression { check.isSnapshot(env.POM_PROJECT_VERSION) }
         not { expression { check.isReleaseCandidate(env.GIT_BRANCH) } }
+        not { environment name: 'BUILD_ID', value: '1' }
         not { expression { check.skipDeploy(env.WORKSPACE) } }
         not { expression { check.skipPipeline(env.WORKSPACE) } }
       }
@@ -138,6 +143,7 @@ pipeline {
         } // Did Maven Deploy Run?
         expression { check.isReleaseCandidate(env.GIT_BRANCH) }
         expression { check.isSnapshot(env.POM_PROJECT_VERSION) }
+        not { environment name: 'BUILD_ID', value: '1' }
         not { expression { check.skipDeploy(env.WORKSPACE) } }
         not { expression { check.skipPipeline(env.WORKSPACE) } }
       }
@@ -161,6 +167,7 @@ pipeline {
         } // Did Maven Deploy Run?
         branch 'master' 
         expression { check.isRelease(env.POM_PROJECT_VERSION) } 
+        not { environment name: 'BUILD_ID', value: '1' }
         not { expression { check.skipDeploy(env.WORKSPACE) } }
         not { expression { check.skipPipeline(env.WORKSPACE) } }
       }
