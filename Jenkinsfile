@@ -5,7 +5,7 @@
 //https://jenkins.io/doc/book/pipeline/shared-libraries/#dynamic-retrieval
 library identifier: 'toolslib@master', retriever: modernSCM(
   [$class: 'GitSCMSource',
-   remote: 'https://github.com/GrowMon/jenkins-pipeline-shared.git'])
+   remote: 'https://github.com/LelandSindt/jenkins-pipeline-shared.git'])
 
 pipeline {
   agent any
@@ -20,7 +20,7 @@ pipeline {
     isRelease = check.isRelease(readMavenPom().getVersion())
     isSnapshot = check.isSnapshot(readMavenPom().getVersion())
     isReleaseCandidate = check.isReleaseCandidate(branch.toString())
-    skipPipeline = check.skipPipeline(env.WORKSPACE)
+    skipPipeline = check.skipPipeline(this)
   }
   stages {
     stage('Initialize ') {
@@ -40,7 +40,7 @@ pipeline {
         branch 'master'
         expression { check.isRelease(env.POM_PROJECT_VERSION) }
         not { environment name: 'BUILD_ID', value: '1' }
-        not { expression { check.skipPipeline(env.WORKSPACE) } }
+        not { expression { check.skipPipeline(this) } }
       }
       steps {
         sh '''
@@ -54,7 +54,7 @@ pipeline {
         not { branch 'master' }
         expression { check.isSnapshot(env.POM_PROJECT_VERSION) }
         not { environment name: 'BUILD_ID', value: '1' }
-        not { expression { check.skipPipeline(env.WORKSPACE) } }
+        not { expression { check.skipPipeline(this) } }
       }
       steps {
         sh '''
@@ -75,7 +75,7 @@ pipeline {
           }
         } // Did Maven Deploy Run?
         not { environment name: 'BUILD_ID', value: '1' }
-        not { expression { check.skipPipeline(env.WORKSPACE) } }
+        not { expression { check.skipPipeline(this) } }
       }
       steps {
         sh '''
@@ -96,7 +96,7 @@ pipeline {
           }
         } // Did Maven Deploy Run?
         not { environment name: 'BUILD_ID', value: '1' }
-        not { expression { check.skipPipeline(env.WORKSPACE) } }
+        not { expression { check.skipPipeline(this) } }
       }
       steps {
         sh '''
@@ -120,8 +120,8 @@ pipeline {
         expression { check.isSnapshot(env.POM_PROJECT_VERSION) }
         not { expression { check.isReleaseCandidate(env.GIT_BRANCH) } }
         not { environment name: 'BUILD_ID', value: '1' }
-        not { expression { check.skipDeploy(env.WORKSPACE) } }
-        not { expression { check.skipPipeline(env.WORKSPACE) } }
+        not { expression { check.skipDeploy(this) } }
+        not { expression { check.skipPipeline(this) } }
       }
       steps {
         sh ''' 
@@ -144,8 +144,8 @@ pipeline {
         expression { check.isReleaseCandidate(env.GIT_BRANCH) }
         expression { check.isSnapshot(env.POM_PROJECT_VERSION) }
         not { environment name: 'BUILD_ID', value: '1' }
-        not { expression { check.skipDeploy(env.WORKSPACE) } }
-        not { expression { check.skipPipeline(env.WORKSPACE) } }
+        not { expression { check.skipDeploy(this) } }
+        not { expression { check.skipPipeline(this) } }
       }
       steps {
         sh ''' 
@@ -168,8 +168,8 @@ pipeline {
         branch 'master' 
         expression { check.isRelease(env.POM_PROJECT_VERSION) } 
         not { environment name: 'BUILD_ID', value: '1' }
-        not { expression { check.skipDeploy(env.WORKSPACE) } }
-        not { expression { check.skipPipeline(env.WORKSPACE) } }
+        not { expression { check.skipDeploy(this) } }
+        not { expression { check.skipPipeline(this) } }
       }
       //Todo: figure out how to get input go/nogo /after/ the when statment.
       //https://jenkins.io/doc/book/pipeline/syntax/#input
